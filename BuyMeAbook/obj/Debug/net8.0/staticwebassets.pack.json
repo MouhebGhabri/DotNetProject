@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\BuyMeAbook.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\ghabr\\Desktop\\TEK-UP Courses\\S4\\.Net\\BuyMeAbook.example\\BuyMeAbook\\wwwroot\\css\\bootswatchTheme.css",
+      "PackagePath": "staticwebassets\\css\\bootswatchTheme.css"
+    },
+    {
       "Id": "C:\\Users\\ghabr\\Desktop\\TEK-UP Courses\\S4\\.Net\\BuyMeAbook.example\\BuyMeAbook\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
