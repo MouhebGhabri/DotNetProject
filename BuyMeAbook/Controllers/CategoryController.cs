@@ -13,12 +13,40 @@ namespace BuyMeAbook.Controllers
         {
             _db = db;
         }
+
+        //list categories
         public IActionResult Index()
         {
             IEnumerable<Category> objCategoryList= _db.Categories; //retirve categories from the table
                         Console.WriteLine("XXXXXXXXXXXXXXXXXXXXX \n"+objCategoryList);
 
             return View(objCategoryList);
+        }
+
+        //create new category GET
+        public IActionResult Create()
+        {
+        
+            return View();
+        }
+        //Post
+        [HttpPost]
+        [ValidateAntiForgeryToken] //prevent xcsrf attacks
+        public IActionResult Create(Category obj)
+        {
+           if (obj.Name==obj.DisplayOrder.ToString() ){ //validation in the serveer  side
+
+                ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name");
+
+            }
+           if(ModelState.IsValid) { //model validation
+                _db.Categories.Add(obj); //we created an object 
+                _db.SaveChanges(); //we saved it
+                return RedirectToAction("Index"); //redirect to the Index methode in the controller
+                                                  // if you want to redirect to another controller just define it using "metohde","controllername"
+            }
+           return View(obj);
+
         }
     }
 }
