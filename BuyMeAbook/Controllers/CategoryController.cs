@@ -77,7 +77,7 @@ namespace BuyMeAbook.Controllers
 			}
 			if (ModelState.IsValid)
 			{ //model validation
-				_db.Categories.Update(obj); //we updated theobject object 
+				_db.Categories.Update(obj); //we Deleted the object object 
 				_db.SaveChanges(); //we saved it
 				return RedirectToAction("Index"); //redirect to the Index methode in the controller
 												  // if you want to redirect to another controller just define it using "metohde","controllername"
@@ -85,7 +85,38 @@ namespace BuyMeAbook.Controllers
 			return View(obj);
 
 		}
-	}
+        //Delete GET
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var categoryFormDb = _db.Categories.Find(id); //find item based on ID
+            /*            var categoryFromDbFirst = _db.Categories.FirstOrDefault(u=>u.Id==id); other ways to retrive object from DB
+                        var categoryFromDbSingle = _db.Categories.SingleOrDefault(u => u.Id == id);*/
+            if (categoryFormDb == null) { return NotFound(); }
+
+            return View(categoryFormDb);
+        }
+        // Delete Post
+        [HttpPost]
+        [ValidateAntiForgeryToken] //prevent xcsrf attacks
+        public IActionResult DeletePost(int? id)
+        {
+            var obj = _db.Categories.Find(id);
+            if(obj == null ) { return NotFound(); }
+          
+                _db.Categories.Remove(obj); //we delete theobject object 
+                _db.SaveChanges(); //we saved it
+                return RedirectToAction("Index"); //redirect to the Index methode in the controller
+                                                  // if you want to redirect to another controller just define it using "metohde","controllername"
+            
+
+        }
+
+
+    }
 
 
 
