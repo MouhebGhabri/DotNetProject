@@ -48,5 +48,45 @@ namespace BuyMeAbook.Controllers
            return View(obj);
 
         }
-    }
+
+
+        //EDIT GET
+		public IActionResult Edit(int? id)
+		{
+            if(id==null || id == 0)
+            {
+                return NotFound();
+            }
+            var categoryFormDb = _db.Categories.Find(id); //find item based on ID
+            /*            var categoryFromDbFirst = _db.Categories.FirstOrDefault(u=>u.Id==id); other ways to retrive object from DB
+                        var categoryFromDbSingle = _db.Categories.SingleOrDefault(u => u.Id == id);*/
+            if (categoryFormDb == null) { return NotFound(); }
+
+			return View(categoryFormDb);
+		}
+		// EDIT Post
+		[HttpPost]
+		[ValidateAntiForgeryToken] //prevent xcsrf attacks
+		public IActionResult Edit(Category obj)
+		{
+			if (obj.Name == obj.DisplayOrder.ToString())
+			{ //validation in the serveer  side
+
+				ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name");
+
+			}
+			if (ModelState.IsValid)
+			{ //model validation
+				_db.Categories.Update(obj); //we updated theobject object 
+				_db.SaveChanges(); //we saved it
+				return RedirectToAction("Index"); //redirect to the Index methode in the controller
+												  // if you want to redirect to another controller just define it using "metohde","controllername"
+			}
+			return View(obj);
+
+		}
+	}
+
+
+
 }
